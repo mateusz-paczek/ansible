@@ -1,0 +1,13 @@
+---
+- name: "PLAYBOOK 1: TEST CONNECTIVITY TO HOST SPECIFIED IN GROUP VARIABLES"
+  hosts: routers
+  vars:
+    ansible_command_timeout: 30
+  tasks:
+    - name: "TASK 1: PING TARGETS FROM CISCO DEVICES"
+      cisco.ios.ios_command:
+        commands: ping {{ item }}
+      loop: "{{ ping_target }}"
+      register: result
+      failed_when: "not '!!!' in result.stdout[0]"
+      ignore_errors: yes

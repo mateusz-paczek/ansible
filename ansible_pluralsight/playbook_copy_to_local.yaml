@@ -7,7 +7,7 @@
       cisco.ios.ios_command:
         commands: show ip int brief
       register: show_ip
-    - name: PRINT OUTPUT TO THE SCEEN
+    - name: PRINT OUTPUT TO THE SCREEN
       ansible.builtin.debug:
         var: show_ip
     - name: STORE OUTPUT IN A FILE

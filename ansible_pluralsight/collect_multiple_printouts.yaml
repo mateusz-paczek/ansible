@@ -1,0 +1,36 @@
+---
+- name: "PLAYBOOK 1: SETUP DIRECTORY on the local host"
+  hosts: localhost
+  tasks:
+    - name: "TASK 1: Setup environment - remove directory if it exist"
+      ansible.builtin.file:
+        path: results
+        state: absent
+    - name: "TASK 2: Create new directory"
+      ansible.builtin.file:
+        path: results
+        state: directory
+
+- name: "PLAYBOOK 2: Collect printouts from networking devices"
+  hosts: routers
+  vars:
+    collect:
+      - show arp
+      - show ip interface brief
+      - show version
+
+  tasks:
+    - name: "TASK 1: Execute show commands"
+      cisco.ios.ios_command:
+        commands: "{{ collect }}"
+      register: result
+    
+    - name: "TASK 2: COPY PRINTOUTS TO RESULTS DIRECTORY"
+      ansible.builtin.copy:
+        content: "{{ result.stdout[index] }}"
+        dest: "results/{{ inventory_hostname }}_{{item|replace(' ','_')}}.txt"
+      delegate_to: localhost
+      loop: "{{ collect }}"
+      loop_control:
+        index_var: index
+

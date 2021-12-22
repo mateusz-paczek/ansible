@@ -1,0 +1,11 @@
+---
+- name: PLAYBOOK TO CLEAR COUNTERS
+  hosts: routers
+  tasks:
+    - name: TASK1 - Clear counters on interfaces
+      ansible.netcommon.cli_command:
+        command: clear counters
+        prompt:
+          - "[confirm]"
+        answer:
+          - y

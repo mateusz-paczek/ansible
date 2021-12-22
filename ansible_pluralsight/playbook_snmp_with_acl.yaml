@@ -1,0 +1,30 @@
+---
+- name: PLAYBOOK TO CONFIGURE ACL ON ROUTERS
+  hosts: routers
+  tasks:
+    - name: TASK1 - ADD ACE INTO SNMP RO ACL
+      cisco.ios.ios_config:
+        lines: 
+          - "access-list 69 permit 10.10.10.100"
+        save_when: modified
+      notify: config_changed_acl
+      register: cli_result_acl
+
+    - name: "TASK 2: UPDATE SNMP CONFIGURATION WITH SNMP SERVER"
+      cisco.ios.ios_config:
+        lines: "snmp-server host 10.10.10.100 version 2c LALALA"
+        save_when: modified
+      notify: config_changed_snmp
+      register: cli_result_snmp
+
+
+  handlers:
+    - name: "HANDLER 1: Display relevant changes for ACL config"
+      listen: config_changed_acl
+      debug:
+        msg: "{{ cli_result_acl.commands }}"
+
+    - name: "HANDLER 2: Display relevant changes for SNMP config"
+      listen: config_changed_snmp
+      debug:
+        msg: "{{ cli_result_snmp.commands }}"
