@@ -1,0 +1,15 @@
+---
+- name: "PLAYBOOK 1: PARSE COMMAND OUTPUT WITH TEXTFSM TEMPLATES"
+  hosts: routers
+  
+
+  tasks:
+    - name: "TASK 1: PARSING COMMAND SEND TO DEVICES"
+      ansible.utils.cli_parse:
+        command: "show ip ospf neighbor"
+        parser:
+          name: ansible.netcommon.pyats
+      register: result
+    - name: "TASK 2: PARSE OUTPUT FROM COMMAND WITH TEXTFSM TEMPLATE"
+      ansible.builtin.debug:
+        var: result.parsed

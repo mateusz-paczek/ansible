@@ -1,0 +1,12 @@
+---
+- name: "PLAYBOOK 1: GATHERING FACTS"
+  hosts: routers
+  gather_facts: yes
+  tasks:
+    - name: "TASK 1: GATHERING FACTS FROM NETWORK DEVICES"
+      cisco.ios.ios_facts:
+        gather_subset: all  
+      register: result
+    - name: "TASK 2: DISPLAY FACTS ON THE SCREEN"
+      ansible.builtin.debug:
+        var: result

@@ -1,0 +1,20 @@
+---
+- name: "PLAYBOOK 1: PARSE COMMAND OUTPUT WITH TEXTFSM TEMPLATES"
+  hosts: routers
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    textfsm_path: "{{ home }}/venv/ansible_4.8.0/lib/python3.8/site-packages/ntc_templates/templates/"
+    ospf_textfsm: "cisco_ios_show_ip_ospf_neighbor.textfsm"
+
+  tasks:
+    - name: "TASK 1: SENDING COMMAND TO DEVICES"
+      cisco.ios.ios_command:
+        commands: show ip ospf neighbor
+      register: result
+    - name: "TASK 2: PARSE OUTPUT FROM COMMAND WITH TEXTFSM TEMPLATE"
+      set_fact:
+        ospf_neighbor:
+          "{{ result.stdout[0] | ansible.netcommon.parse_cli_textfsm(textfsm_path+ospf_textfsm)}}"
+    - name: "TASK 3: PRINT RESULT TO THE SCREEN"
+      ansible.builtin.debug:
+        var: ospf_neighbor
