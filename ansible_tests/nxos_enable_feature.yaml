@@ -1,0 +1,9 @@
+---
+- name: "PLAYBOOK: ENABLES FEATURES ON NXOS PLATFORM"
+  hosts: switches
+  tasks:
+    - name: "TASK: ENABLE SPECIFIC FEATURES ON NXOS"
+      nxos_feature:
+        feature: "{{ item }}"
+        state: enabled
+      loop: [ ospf,bgp,llpd,bfd ]

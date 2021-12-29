@@ -1,0 +1,19 @@
+---
+- name: "PLAYBOOK 1: CONFIGURE BASIC BGP ON IOS ROUTERS"
+  hosts: routers
+  tasks:
+    - name: "TASK 1: CHECK AS NUMBER CONFIGURED ON THE DEVICE"
+      cisco.ios.ios_command:
+        commands:
+          - "show ip protocols summary | include bgp"
+      register: protocols
+
+    - name: "TASK 2: SET FACT TO CHECK CONFIGURED AS NUMBER"
+      set_fact:
+        bgp_as: "{{ protocols.stdout[0] | regex_search('\\d+$') }}" # Regex used to find the last number in the line
+      when: protocols.stdout[0]
+    
+    - name: "TASK 3: PRINT OUTPUT FROM THE COMMAND ON THE SCREEN"
+      debug: var=bgp_as
+
+    
