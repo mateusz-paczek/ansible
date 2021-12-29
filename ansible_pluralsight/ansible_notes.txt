@@ -38,3 +38,6 @@ ansible-galaxy collection install cisco.nxos:==2.4.0 --force
 ansible -i inventory.yaml -m cisco.nxos.nxos_feature -a feature=scp-server all 
 ansible -i inventory.yaml -m cisco.nxos.nxos_feature -a "feature=scp-server state=disabled" all 
 
+
+# Ansible display all vars from playbook
+- debug: var=vars
