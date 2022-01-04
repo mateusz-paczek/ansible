@@ -1,0 +1,11 @@
+---
+- name: Configure BGP on the device
+  cisco.ios.ios_config:
+    lines:
+      - no router bgp 65000
+      - router bgp {{ bgp_asn }}
+  register: changes
+
+- name: PRINT OUTPUT TO THE SCREEN
+  ansible.builtin.debug:
+    var: changes

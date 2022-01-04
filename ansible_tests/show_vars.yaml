@@ -1,0 +1,7 @@
+---
+- name: "PLAYBOOK: DISPLAYS VARIABLES FOR HOSTS"
+  hosts: routers
+  tasks:
+    - name: "TASK: DISPLAYS VARIABLES FOR HOSTS"
+      ansible.builtin.debug:
+        var: vars

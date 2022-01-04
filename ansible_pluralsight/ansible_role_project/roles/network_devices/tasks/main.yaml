@@ -1,0 +1,9 @@
+---
+- name: Configure global DNS settings
+  cisco.ios.ios_config:
+    lines:
+      - ip domain name eloelo.local
+- name: Configure DNS servers
+  cisco.ios.ios_config:
+    lines:
+      - "ip name-server {{ dns_servers | join(' ') }}"

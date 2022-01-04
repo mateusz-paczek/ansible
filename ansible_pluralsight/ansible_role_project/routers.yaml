@@ -1,0 +1,5 @@
+---
+- hosts: routers
+  roles:
+    - network_devices
+    - bgp_speakers
